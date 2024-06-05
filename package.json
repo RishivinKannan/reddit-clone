@@ -39,6 +39,7 @@
     "@upstash/redis": "^1.21.0",
     "autoprefixer": "10.4.14",
     "axios": "^1.4.0",
+    "caniuse-lite": "^1.0.30001627",
     "class-variance-authority": "^0.6.0",
     "cmdk": "^0.2.0",
     "date-fns": "^2.30.0",
