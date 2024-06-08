@@ -97,6 +97,7 @@ export default async function Layout({
                   subredditName={subreddit.name}
                 />
               )}
+              
 
               <Link
                 className={buttonVariants({
