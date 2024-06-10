@@ -28,7 +28,7 @@ To get started with Breadit locally, follow these steps:
 1. **Clone the Repository:**
 
    ```bash
-     git clone https://github.com/RishivinKannan/personal_bookshelf.git
+     git clone https://github.com/RishivinKannan/reddit-clone.git
    ```
 
 2. **Navigate to the Project Directory:**
