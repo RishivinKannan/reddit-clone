@@ -57,20 +57,20 @@ export default async function Layout({
   });
 
   return (
-    <div className="sm:container max-w-7xl mx-auto h-full pt-12">
+    <div className="h-full pt-12 mx-auto sm:container max-w-7xl">
       <div>
         {/* <ToFeedButton /> */}
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-y-4 md:gap-x-4 py-6">
+        <div className="grid grid-cols-1 py-6 md:grid-cols-3 gap-y-4 md:gap-x-4">
           <ul className="flex flex-col col-span-2 space-y-6">{children}</ul>
 
           {/* info sidebar */}
-          <div className="overflow-hidden h-fit rounded-lg border border-gray-200 order-first md:order-last">
+          <div className="order-first overflow-hidden border border-gray-200 rounded-lg h-fit md:order-last">
             <div className="px-6 py-4">
-              <p className="font-semibold py-3">About r/{subreddit.name}</p>
+              <p className="py-3 font-semibold">About r/{subreddit.name}</p>
             </div>
-            <dl className="divide-y divide-gray-100 px-6 py-4 text-sm leading-6 bg-white">
-              <div className="flex justify-between gap-x-4 py-3">
+            <dl className="px-6 py-4 text-sm leading-6 bg-white divide-y divide-gray-100">
+              <div className="flex justify-between py-3 gap-x-4">
                 <dt className="text-gray-500">Created</dt>
                 <dd className="text-gray-700">
                   <time dateTime={subreddit.createdAt.toDateString()}>
@@ -79,13 +79,13 @@ export default async function Layout({
                 </dd>
               </div>
 
-              <div className="flex justify-between gap-x-4 py-3">
+              <div className="flex justify-between py-3 gap-x-4">
                 <dt className="text-gray-500">Memebers</dt>
                 <dd className="text-gray-900">{memberCount}</dd>
               </div>
 
               {subreddit.creatorId === session?.user.id && (
-                <div className="flex justify-between gap-x-4 py-3">
+                <div className="flex justify-between py-3 gap-x-4">
                   <p className="text-gray-500">You created this community.</p>
                 </div>
               )}
@@ -97,14 +97,13 @@ export default async function Layout({
                   subredditName={subreddit.name}
                 />
               )}
-              
 
               <Link
                 className={buttonVariants({
                   variant: "outline",
                   className: "w-full mb-6",
                 })}
-                href={`r/${params.slug}/submit`}
+                href={`/r/${params.slug}/submit`}
               >
                 Create Post
               </Link>
