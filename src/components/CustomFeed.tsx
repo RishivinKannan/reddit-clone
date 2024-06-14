@@ -2,6 +2,8 @@ import { INFINITE_SCROLLING_PAGINATION_RESULTS } from "@/config";
 import { db } from "@/lib/db";
 import PostFeed from "./PostFeed";
 import { getAuthSession } from "@/lib/auth";
+import { Post, Subreddit, User, Vote } from "@prisma/client";
+import { ExtendedPost } from "@/types/db";
 
 const CustomFeed = async () => {
   const session = await getAuthSession();
@@ -14,54 +16,45 @@ const CustomFeed = async () => {
       subreddit: true,
     },
   });
-  const posts = await db.post.findMany({
-    where: {
-      subreddit: {
-        id: {
-          in: followedCommunities.map(({ subreddit }) => subreddit.id),
-        },
-      },
-    },
-    orderBy: {
-      createdAt: "desc",
-    },
-    include: {
-      votes: true,
-      author: true,
-      comments: true,
-      subreddit: true,
-    },
-    take: INFINITE_SCROLLING_PAGINATION_RESULTS,
-  });
-  const generalPosts = await db.post.findMany({
-    where: {
-      subreddit: {
-        id: {
-          notIn: followedCommunities.map(({ subreddit }) => subreddit.id),
-        },
-      },
-    },
-    orderBy: {
-      createdAt: "desc",
-    },
-    include: {
-      votes: true,
-      author: true,
-      comments: true,
-      subreddit: true,
-    },
-    take: INFINITE_SCROLLING_PAGINATION_RESULTS,
-  });
 
-  return (
-    <>
-      {posts.length === 0 ? (
-        <PostFeed initialPosts={posts} />
-      ) : (
-        <PostFeed initialPosts={generalPosts} />
-      )}
-    </>
-  );
+  let posts: ExtendedPost[];
+
+  if (followedCommunities.length === 0) {
+    posts = await db.post.findMany({
+      orderBy: {
+        createdAt: "desc",
+      },
+      include: {
+        votes: true,
+        author: true,
+        comments: true,
+        subreddit: true,
+      },
+      take: INFINITE_SCROLLING_PAGINATION_RESULTS,
+    });
+  } else {
+    posts = await db.post.findMany({
+      where: {
+        subreddit: {
+          name: {
+            in: followedCommunities.map(({ subreddit }) => subreddit.id),
+          },
+        },
+      },
+      orderBy: {
+        createdAt: "desc",
+      },
+      include: {
+        votes: true,
+        author: true,
+        comments: true,
+        subreddit: true,
+      },
+      take: INFINITE_SCROLLING_PAGINATION_RESULTS,
+    });
+  }
+
+  return <PostFeed initialPosts={posts} />;
 };
 
 export default CustomFeed;
