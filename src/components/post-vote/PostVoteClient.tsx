@@ -39,8 +39,8 @@ const PostVoteClient: FC<PostVoteClientProps> = ({
         postId,
         voteType,
       };
-
-      await axios.patch("/api/subreddit/post/vote", payload);
+      const {data} = await axios.patch("/api/subreddit/post/vote", payload);
+      return data
     },
     onError: (err, voteType) => {
       if (voteType === "UP") setVotesAmt((prev) => prev - 1);
