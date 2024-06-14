@@ -15,12 +15,31 @@ const CustomFeed = async () => {
     },
   });
   const posts = await db.post.findMany({
-    where:{
-      subreddit:{
-        name:{
-          in:followedCommunities.map(({subreddit})=> subreddit.id)
-        }
-      }
+    where: {
+      subreddit: {
+        id: {
+          in: followedCommunities.map(({ subreddit }) => subreddit.id),
+        },
+      },
+    },
+    orderBy: {
+      createdAt: "desc",
+    },
+    include: {
+      votes: true,
+      author: true,
+      comments: true,
+      subreddit: true,
+    },
+    take: INFINITE_SCROLLING_PAGINATION_RESULTS,
+  });
+  const generalPosts = await db.post.findMany({
+    where: {
+      subreddit: {
+        id: {
+          notIn: followedCommunities.map(({ subreddit }) => subreddit.id),
+        },
+      },
     },
     orderBy: {
       createdAt: "desc",
@@ -34,7 +53,15 @@ const CustomFeed = async () => {
     take: INFINITE_SCROLLING_PAGINATION_RESULTS,
   });
 
-  return <PostFeed initialPosts={posts} />;
+  return (
+    <>
+      {posts.length === 0 ? (
+        <PostFeed initialPosts={posts} />
+      ) : (
+        <PostFeed initialPosts={generalPosts} />
+      )}
+    </>
+  );
 };
 
 export default CustomFeed;
