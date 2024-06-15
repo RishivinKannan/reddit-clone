@@ -2,7 +2,6 @@ import { INFINITE_SCROLLING_PAGINATION_RESULTS } from "@/config";
 import { db } from "@/lib/db";
 import PostFeed from "./PostFeed";
 import { getAuthSession } from "@/lib/auth";
-import { Post, Subreddit, User, Vote } from "@prisma/client";
 import { ExtendedPost } from "@/types/db";
 
 const CustomFeed = async () => {
