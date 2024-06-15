@@ -71,8 +71,11 @@ const PostComment: FC<PostCommentProps> = ({
           <MessageSquare className="w-4 h-4 mr-1.5" />{" "}
           {isReplying ? "Cancel" : "Reply"}
         </Button>
+      </div>
+      <div className="p-2">
         {isReplying && (
           <CreateComment
+            setShow={setIsReplying}
             postId={postId}
             replyToId={comment.replyToId ?? comment.id}
           />

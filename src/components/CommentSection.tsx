@@ -35,8 +35,8 @@ const CommentSection = async ({ postId }: CommentSectionProps) => {
       <div className="flex flex-col mt-4 gap-y-6">
         {comments
           .filter((comment) => !comment.replyToId)
-          .map((topLeveComment) => {
-            const topLeveCommentVoteAmt = topLeveComment.vote.reduce(
+          .map((topLevelComment) => {
+            const topLeveCommentVoteAmt = topLevelComment.vote.reduce(
               (acc, vote) => {
                 if (vote.type === "UP") return acc + 1;
                 if (vote.type === "DOWN") return acc - 1;
@@ -44,20 +44,49 @@ const CommentSection = async ({ postId }: CommentSectionProps) => {
               },
               0
             );
-            const topLevelCommentVote = topLeveComment.vote.find(
+            const topLevelCommentVote = topLevelComment.vote.find(
               (vote) => vote.userId === session?.user.id
             );
 
             return (
-              <div className="flex flex-col" key={topLeveComment.id}>
+              <div className="flex flex-col" key={topLevelComment.id}>
                 <div className="mb-2">
                   <PostComment
-                    comment={topLeveComment}
+                    comment={topLevelComment}
                     currentVote={topLevelCommentVote}
                     votesAmt={topLeveCommentVoteAmt}
                     postId={postId}
                   />
                 </div>
+
+                {topLevelComment.replies
+                  .sort((a, b) => b.vote.length - a.vote.length)
+                  .map((reply) => {
+                    const replyVoteAmt = reply.vote.reduce(
+                      (acc, vote) => {
+                        if (vote.type === "UP") return acc + 1;
+                        if (vote.type === "DOWN") return acc - 1;
+                        return acc;
+                      },
+                      0
+                    );
+                    const replyVote = reply.vote.find(
+                      (vote) => vote.userId === session?.user.id
+                    );
+                    return (
+                      <div
+                        className="py-2 pl-4 ml-2 border-l-2 border-zinc-200"
+                        key={reply.id}
+                      >
+                        <PostComment
+                          comment={reply}
+                          currentVote={replyVote}
+                          votesAmt={replyVoteAmt}
+                          postId={postId}
+                        />
+                      </div>
+                    );
+                  })}
               </div>
             );
           })}

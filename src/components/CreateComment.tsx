@@ -5,7 +5,7 @@ import { CommentRequest } from "@/lib/validators/comment";
 import { useMutation } from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";
 import { useRouter } from "next/navigation";
-import { FC, useState } from "react";
+import { Dispatch, FC, SetStateAction, useState } from "react";
 import { Button } from "./ui/Button";
 import { Label } from "./ui/Label";
 import { Textarea } from "./ui/Textarea";
@@ -13,9 +13,10 @@ import { Textarea } from "./ui/Textarea";
 interface CreateCommentProps {
   postId: string;
   replyToId?: string;
+  setShow?: Dispatch<SetStateAction<boolean>>;
 }
 
-const CreateComment: FC<CreateCommentProps> = ({ postId, replyToId }) => {
+const CreateComment: FC<CreateCommentProps> = ({ postId, replyToId,setShow }) => {
   const [input, setInput] = useState("");
 
   const router = useRouter();
@@ -45,6 +46,7 @@ const CreateComment: FC<CreateCommentProps> = ({ postId, replyToId }) => {
     onSuccess: () => {
       router.refresh();
       setInput("");
+      if (setShow) setShow(false);
     },
   });
 
