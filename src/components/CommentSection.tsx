@@ -55,6 +55,7 @@ const CommentSection = async ({ postId }: CommentSectionProps) => {
                     comment={topLeveComment}
                     currentVote={topLevelCommentVote}
                     votesAmt={topLeveCommentVoteAmt}
+                    postId={postId}
                   />
                 </div>
               </div>
