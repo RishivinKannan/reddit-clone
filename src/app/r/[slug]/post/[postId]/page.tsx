@@ -12,6 +12,7 @@ import { Suspense } from "react";
 
 export const dynamic = "force-dynamic";
 export const fetchCache = "force-no-store";
+
 export default async function Page({
   params,
 }: {
@@ -39,7 +40,7 @@ export default async function Page({
 
   return (
     <div>
-      <div className="flex flex-col items-center justify-between h-full sm:flex-row sm:items-start ">
+      <div className="flex justify-between">
         <Suspense fallback={<PostVoteShell />}>
           {/* @ts-ignore */}
           <PostVoteServer
@@ -64,17 +65,14 @@ export default async function Page({
             {post?.title ?? cachedPost.title}
           </h1>
           <EditorOutput content={post?.content ?? cachedPost.content} />
-
-          <Suspense
-            fallback={
-              <Loader2 className="w-5 h-5 animate-spin text-zinc-500" />
-            }
-          >
-            {/* @ts-ignore */}
-            <CommentSection postId={post?.id ?? cachedPost.id} />
-          </Suspense>
         </div>
       </div>
+      <Suspense
+        fallback={<Loader2 className="w-5 h-5 animate-spin text-zinc-500" />}
+      >
+        {/* @ts-ignore */}
+        <CommentSection postId={post?.id ?? cachedPost.id} />
+      </Suspense>
     </div>
   );
 }
