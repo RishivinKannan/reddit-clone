@@ -14,6 +14,7 @@ import { Prisma, Subreddit } from "@prisma/client";
 import { useRouter } from "next/navigation";
 import { Users } from "lucide-react";
 import debounce from "lodash.debounce";
+import Link from "next/link";
 
 interface SearchBarProps {}
 
@@ -26,7 +27,7 @@ const SearchBar: FC<SearchBarProps> = ({}) => {
 
   const debounceRequest = useCallback(() => {
     request();
-  }, []);
+  }, [request]);
 
   const router = useRouter();
 
@@ -34,7 +35,6 @@ const SearchBar: FC<SearchBarProps> = ({}) => {
     data: queryResults,
     refetch,
     isFetched,
-    isFetching,
   } = useQuery({
     queryFn: async () => {
       if (!input) return [];
@@ -72,7 +72,7 @@ const SearchBar: FC<SearchBarProps> = ({}) => {
                   value={subreddit.name}
                 >
                   <Users className="w-4 h-4 mr-2" />
-                  <a href={`/r/${subreddit.name}`}>r/{subreddit.name}</a>
+                  <Link href={`/r/${subreddit.name}`}>r/{subreddit.name}</Link>
                 </CommandItem>
               ))}
             </CommandGroup>

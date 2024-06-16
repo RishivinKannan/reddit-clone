@@ -40,7 +40,7 @@ export default async function Page({
 
   return (
     <div>
-      <div className="flex justify-between">
+      <div className="flex">
         <Suspense fallback={<PostVoteShell />}>
           {/* @ts-ignore */}
           <PostVoteServer
@@ -68,7 +68,11 @@ export default async function Page({
         </div>
       </div>
       <Suspense
-        fallback={<Loader2 className="w-5 h-5 animate-spin text-zinc-500" />}
+        fallback={
+          <div className="flex items-center justify-center w-full h-24">
+            <Loader2 className="w-5 h-5 animate-spin text-zinc-500" />
+          </div>
+        }
       >
         {/* @ts-ignore */}
         <CommentSection postId={post?.id ?? cachedPost.id} />
@@ -88,7 +92,7 @@ function PostVoteShell() {
       {/* Score */}
 
       <div className={"text-center py-2 font-medium text-sm text-zinc-900"}>
-        <Loader2 className="w-5 h-5 text-zinc-700" />
+        <Loader2 className="w-5 h-5 animate-spin text-zinc-700" />
       </div>
       {/* DOWNVOTE */}
 

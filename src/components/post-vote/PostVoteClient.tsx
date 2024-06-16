@@ -39,8 +39,8 @@ const PostVoteClient: FC<PostVoteClientProps> = ({
         postId,
         voteType,
       };
-      const {data} = await axios.patch("/api/subreddit/post/vote", payload);
-      return data
+      const { data } = await axios.patch("/api/subreddit/post/vote", payload);
+      return data;
     },
     onError: (err, voteType) => {
       if (voteType === "UP") setVotesAmt((prev) => prev - 1);
@@ -74,7 +74,7 @@ const PostVoteClient: FC<PostVoteClientProps> = ({
     },
   });
   return (
-    <div className="flex flex-col gap-4 sm:gap-0 pr-6 sm:w-20 pb-4 sm:pb-0">
+    <div className="flex flex-col gap-4 pb-4 pr-6 sm:pr-2 sm:gap-0 sm:w-20 sm:pb-0">
       <Button
         size={"sm"}
         variant={"ghost"}
@@ -88,7 +88,7 @@ const PostVoteClient: FC<PostVoteClientProps> = ({
         />
       </Button>
 
-      <p className="text-center py-2 font-medium text-sm  text-zinc-900">
+      <p className="py-2 text-sm font-medium text-center text-zinc-900">
         {votesAmt}
       </p>
 
